@@ -1,0 +1,204 @@
+SQL> 
+SQL> --clear screen;
+SQL> set linesize 150
+SQL> set PAGESIZE 99
+SQL> set COLSEP '|*|'
+SQL> 
+SQL> --Borrado de tablas
+SQL> DROP TABLE Football CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> DROP TABLE Golf CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> DROP TABLE Tennis CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> DROP TABLE Athele CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> 
+SQL> --Tablas
+SQL> CREATE TABLE Athele (
+  2      Ssno VARCHAR2(12),
+  3      Weight NUMBER(38),
+  4      Name VARCHAR(38),
+  5      Gender VARCHAR(2),
+  6      Height NUMBER(10),
+  7      Sport VARCHAR(45)
+  8  );
+
+Tabla creada.
+
+SQL> 
+SQL> CREATE TABLE Tennis (
+  2      Ssno VARCHAR2(12),
+  3      State_ranking NUMBER(38)
+  4  );
+
+Tabla creada.
+
+SQL> 
+SQL> CREATE TABLE Golf (
+  2      Ssno VARCHAR2(12),
+  3      Handicap NUMBER(20)
+  4  );
+
+Tabla creada.
+
+SQL> 
+SQL> CREATE TABLE Football (
+  2      Ssno VARCHAR2(12),
+  3      Position VARCHAR(25)
+  4  );
+
+Tabla creada.
+
+SQL> 
+SQL> --Restricciones
+SQL> ALTER TABLE Athele
+  2  ADD CONSTRAINT Ssno_PK PRIMARY KEY (Ssno);
+
+Tabla modificada.
+
+SQL> 
+SQL> ALTER TABLE Tennis
+  2  ADD CONSTRAINT Ssno_FKT FOREIGN KEY (Ssno) REFERENCES Athele(Ssno);
+
+Tabla modificada.
+
+SQL> 
+SQL> ALTER TABLE Golf
+  2  ADD CONSTRAINT Ssno_FKG FOREIGN KEY (Ssno) REFERENCES Athele(Ssno);
+
+Tabla modificada.
+
+SQL> 
+SQL> ALTER TABLE Football
+  2  ADD CONSTRAINT Ssno_FKF FOREIGN KEY (Ssno) REFERENCES Athele(Ssno);
+
+Tabla modificada.
+
+SQL> 
+SQL> -- Insertar datos
+SQL> INSERT INTO Athele (Ssno, Weight, Name, Gender, Height, Sport)
+  2  VALUES ('239-92-0983', 140, 'Kumar', 'M', 5.95, 'Golf');
+
+1 fila creada.
+
+SQL> INSERT INTO Athele (Ssno, Weight, Name, Gender, Height, Sport)
+  2  VALUES ('398-08-0928', 200, 'Kelvin', 'M', 6.02, 'Football');
+
+1 fila creada.
+
+SQL> INSERT INTO Athele (Ssno, Weight, Name, Gender, Height, Sport)
+  2  VALUES ('322-00-1234', 135, 'Sarah', 'F', 5.6, 'Tennis');
+
+1 fila creada.
+
+SQL> INSERT INTO Athele (Ssno, Weight, Name, Gender, Height, Sport)
+  2  VALUES ('873-97-9877', 165, 'Arjun', 'M', 6.01, 'Golf');
+
+1 fila creada.
+
+SQL> INSERT INTO Athele (Ssno, Weight, Name, Gender, Height, Sport)
+  2  VALUES ('876-09-9873', 145, 'Deesha', 'F', 5.5, 'Tennis, Golf');
+
+1 fila creada.
+
+SQL> 
+SQL> INSERT INTO Tennis (Ssno, State_ranking)
+  2  VALUES ('322-00-1234', 23);
+
+1 fila creada.
+
+SQL> INSERT INTO Tennis (Ssno, State_ranking)
+  2  VALUES ('876-09-9873', 47);
+
+1 fila creada.
+
+SQL> 
+SQL> INSERT INTO Golf (Ssno, Handicap)
+  2  VALUES ('239-92-0983', 3);
+
+1 fila creada.
+
+SQL> INSERT INTO Golf (Ssno, Handicap)
+  2  VALUES ('873-97-9877', 1);
+
+1 fila creada.
+
+SQL> 
+SQL> INSERT INTO Football (Ssno, Position)
+  2  VALUES ('398-08-0928', 'Tackle');
+
+1 fila creada.
+
+SQL> INSERT INTO Football (Ssno, Position)
+  2  VALUES ('239-92-0983', 'Quarterback');
+
+1 fila creada.
+
+SQL> INSERT INTO Football (Ssno, Position)
+  2  VALUES ('398-08-0928', 'Full Back');
+
+1 fila creada.
+
+SQL> 
+SQL> --Desplega las tablas
+SQL> SELECT * FROM Athele;
+
+SSNO        |*|    WEIGHT|*|NAME                                  |*|GE|*|    HEIGHT|*|SPORT                                                          
+------------|*|----------|*|--------------------------------------|*|--|*|----------|*|---------------------------------------------                  
+239-92-0983 |*|       140|*|Kumar                                 |*|M |*|         6|*|Golf                                                           
+398-08-0928 |*|       200|*|Kelvin                                |*|M |*|         6|*|Football                                                       
+322-00-1234 |*|       135|*|Sarah                                 |*|F |*|         6|*|Tennis                                                         
+873-97-9877 |*|       165|*|Arjun                                 |*|M |*|         6|*|Golf                                                           
+876-09-9873 |*|       145|*|Deesha                                |*|F |*|         6|*|Tennis, Golf                                                   
+
+SQL> SELECT * FROM Tennis;
+
+SSNO        |*|STATE_RANKING                                                                                                                          
+------------|*|-------------                                                                                                                          
+322-00-1234 |*|           23                                                                                                                          
+876-09-9873 |*|           47                                                                                                                          
+
+SQL> SELECT * FROM Golf;
+
+SSNO        |*|  HANDICAP                                                                                                                             
+------------|*|----------                                                                                                                             
+239-92-0983 |*|         3                                                                                                                             
+873-97-9877 |*|         1                                                                                                                             
+
+SQL> SELECT * FROM Football;
+
+SSNO        |*|POSITION                                                                                                                               
+------------|*|-------------------------                                                                                                              
+398-08-0928 |*|Tackle                                                                                                                                 
+239-92-0983 |*|Quarterback                                                                                                                            
+398-08-0928 |*|Full Back                                                                                                                              
+
+SQL> 
+SQL> 
+SQL> --Da formato a la salida de datos
+SQL> rem desplegar por TABLE_NAME & CONSTRAINT
+SQL> col owner FORMAT A12
+SQL> col CONSTRAINT_NAME FORMAT A31
+SQL> col CONSTRAINT_TYPE FORMAT A10
+SQL> col table_name FORMAT A25
+SQL> col status  FORMAT A10
+SQL> 
+SQL> --Despliega las restricciones
+SQL> SELECT owner, CONSTRAINT_NAME,
+  2      CONSTRAINT_TYPE, status
+  3      from user_constraints
+  4      where table_name in ('Athele', 'Tennis', 'Golf', 'Football');
+
+ninguna fila seleccionada
+
+SQL> 
+SQL> spool off

@@ -1,0 +1,206 @@
+SQL> 
+SQL> --clear screen;
+SQL> set linesize 150
+SQL> set PAGESIZE 99
+SQL> set COLSEP '|*|'
+SQL> 
+SQL> --Borrado de tablas
+SQL> DROP TABLE Chair CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> DROP TABLE Desk CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> DROP TABLE Mesas CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> DROP TABLE Furniture CASCADE CONSTRAINT;
+
+Tabla borrada.
+
+SQL> 
+SQL> --Tablas
+SQL> CREATE TABLE Furniture (
+  2      FurnitureID VARCHAR2(12),
+  3      Employee_number NUMBER(15),
+  4      Office_no VARCHAR(15),
+  5      Furniture_type VARCHAR(30)
+  6  );
+
+Tabla creada.
+
+SQL> 
+SQL> CREATE TABLE Mesas (
+  2      FurnitureID VARCHAR2(12),
+  3      Sizes NUMBER(10)
+  4  );
+
+Tabla creada.
+
+SQL> 
+SQL> CREATE TABLE Desk (
+  2      FurnitureID VARCHAR2(12),
+  3      Drawers NUMBER(10)
+  4  );
+
+Tabla creada.
+
+SQL> 
+SQL> CREATE TABLE Chair (
+  2      FurnitureID VARCHAR2(12),
+  3      color VARCHAR(10),
+  4      Chair_type VARCHAR(10)
+  5  );
+
+Tabla creada.
+
+SQL> 
+SQL> --Restricciones
+SQL> ALTER TABLE Furniture
+  2  ADD CONSTRAINT FurnitureID_PK PRIMARY KEY (FurnitureID);
+
+Tabla modificada.
+
+SQL> 
+SQL> ALTER TABLE Mesas
+  2  ADD CONSTRAINT FurnitureID_FKM FOREIGN KEY (FurnitureID) REFERENCES Furniture(FurnitureID);
+
+Tabla modificada.
+
+SQL> 
+SQL> ALTER TABLE Desk
+  2  ADD CONSTRAINT FurnitureID_FKD FOREIGN KEY (FurnitureID) REFERENCES Furniture(FurnitureID);
+
+Tabla modificada.
+
+SQL> 
+SQL> ALTER TABLE Chair
+  2  ADD CONSTRAINT FurnitureID_FKC FOREIGN KEY (FurnitureID) REFERENCES Furniture(FurnitureID);
+
+Tabla modificada.
+
+SQL> 
+SQL> -- Insertar datos
+SQL> INSERT INTO Furniture (FurnitureID, Employee_number, Office_no, Furniture_type)
+  2  VALUES ('F1', 101, 'Office1', 'Desk');
+
+1 fila creada.
+
+SQL> INSERT INTO Furniture (FurnitureID, Employee_number, Office_no, Furniture_type)
+  2  VALUES ('F2', 102, 'Office2', 'Desk');
+
+1 fila creada.
+
+SQL> INSERT INTO Furniture (FurnitureID, Employee_number, Office_no, Furniture_type)
+  2  VALUES ('F3', 102, 'Office2', 'Chair');
+
+1 fila creada.
+
+SQL> INSERT INTO Furniture (FurnitureID, Employee_number, Office_no, Furniture_type)
+  2  VALUES ('F4', 102, 'Office1', 'Mesas');
+
+1 fila creada.
+
+SQL> INSERT INTO Furniture (FurnitureID, Employee_number, Office_no, Furniture_type)
+  2  VALUES ('F5', 102, 'Office2', 'Chair');
+
+1 fila creada.
+
+SQL> INSERT INTO Furniture (FurnitureID, Employee_number, Office_no, Furniture_type)
+  2  VALUES ('F6', 102, 'Office1', 'Mesas');
+
+1 fila creada.
+
+SQL> 
+SQL> INSERT INTO Mesas (FurnitureID, Sizes)
+  2  VALUES ('F4', 120);
+
+1 fila creada.
+
+SQL> INSERT INTO Mesas (FurnitureID, Sizes)
+  2  VALUES ('F6', 150);
+
+1 fila creada.
+
+SQL> 
+SQL> INSERT INTO Desk (FurnitureID, Drawers)
+  2  VALUES ('F1', 3);
+
+1 fila creada.
+
+SQL> INSERT INTO Desk (FurnitureID, Drawers)
+  2  VALUES ('F2', 5);
+
+1 fila creada.
+
+SQL> 
+SQL> INSERT INTO Chair (FurnitureID, color, Chair_type)
+  2  VALUES ('F3', 'Black', 'Executive');
+
+1 fila creada.
+
+SQL> INSERT INTO Chair (FurnitureID, color, Chair_type)
+  2  VALUES ('F5', 'Red', 'Conference');
+
+1 fila creada.
+
+SQL> 
+SQL> 
+SQL> --Desplega las tablas
+SQL> SELECT * FROM Furniture;
+
+FURNITUREID |*|EMPLOYEE_NUMBER|*|OFFICE_NO      |*|FURNITURE_TYPE                                                                                     
+------------|*|---------------|*|---------------|*|------------------------------                                                                     
+F1          |*|            101|*|Office1        |*|Desk                                                                                               
+F2          |*|            102|*|Office2        |*|Desk                                                                                               
+F3          |*|            102|*|Office2        |*|Chair                                                                                              
+F4          |*|            102|*|Office1        |*|Mesas                                                                                              
+F5          |*|            102|*|Office2        |*|Chair                                                                                              
+F6          |*|            102|*|Office1        |*|Mesas                                                                                              
+
+6 filas seleccionadas.
+
+SQL> SELECT * FROM Mesas;
+
+FURNITUREID |*|     SIZES                                                                                                                             
+------------|*|----------                                                                                                                             
+F4          |*|       120                                                                                                                             
+F6          |*|       150                                                                                                                             
+
+SQL> SELECT * FROM Desk;
+
+FURNITUREID |*|   DRAWERS                                                                                                                             
+------------|*|----------                                                                                                                             
+F1          |*|         3                                                                                                                             
+F2          |*|         5                                                                                                                             
+
+SQL> SELECT * FROM Chair;
+
+FURNITUREID |*|COLOR     |*|CHAIR_TYPE                                                                                                                
+------------|*|----------|*|----------                                                                                                                
+F3          |*|Black     |*|Executive                                                                                                                 
+F5          |*|Red       |*|Conference                                                                                                                
+
+SQL> 
+SQL> 
+SQL> --Da formato a la salida de datos
+SQL> rem desplegar por TABLE_NAME & CONSTRAINT
+SQL> col owner FORMAT A12
+SQL> col CONSTRAINT_NAME FORMAT A31
+SQL> col CONSTRAINT_TYPE FORMAT A10
+SQL> col table_name FORMAT A25
+SQL> col status  FORMAT A10
+SQL> 
+SQL> --Despliega las restricciones
+SQL> SELECT owner, CONSTRAINT_NAME,
+  2      CONSTRAINT_TYPE, status
+  3      from user_constraints
+  4      where table_name in ('Furniture', 'Mesas', 'Desk', 'Chair');
+
+ninguna fila seleccionada
+
+SQL> 
+SQL> spool off
